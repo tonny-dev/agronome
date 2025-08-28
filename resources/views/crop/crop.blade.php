@@ -1,0 +1,1 @@
+@livewire('lw-crop-list')

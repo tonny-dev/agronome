@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Registration</title>
+</head>
+<body>
+    <h2>Test Registration Form</h2>
+    <form action="http://127.0.0.1:8000/register" method="POST">
+        <input type="hidden" name="_token" value="test-token">
+        
+        <label>First Name:</label><br>
+        <input type="text" name="first_name" value="John" required><br><br>
+        
+        <label>Last Name:</label><br>
+        <input type="text" name="other_names" value="Doe" required><br><br>
+        
+        <label>Mobile:</label><br>
+        <input type="text" name="mobile" value="0712345678" maxlength="10" required><br><br>
+        
+        <label>Email:</label><br>
+        <input type="email" name="email" value="john.doe@example.com" required><br><br>
+        
+        <label>Password:</label><br>
+        <input type="password" name="password" value="password123" required><br><br>
+        
+        <label>Confirm Password:</label><br>
+        <input type="password" name="password_confirmation" value="password123" required><br><br>
+        
+        <input type="submit" value="Register">
+    </form>
+    
+    <script>
+        // Get CSRF token from the registration page
+        fetch('http://127.0.0.1:8000/register')
+            .then(response => response.text())
+            .then(html => {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const token = doc.querySelector('input[name="_token"]');
+                if (token) {
+                    document.querySelector('input[name="_token"]').value = token.value;
+                }
+            });
+    </script>
+</body>
+</html>
