@@ -121,6 +121,29 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/soil-samples/{sample}/results', [App\Http\Controllers\SoilTestController::class, 'addResults'])->name('soil.add-results');
 });
 
+// Chemical Soil Testing Routes
+Route::middleware('auth')->prefix('chemical-soil')->name('chemical-soil.')->group(function () {
+    Route::get('/', [App\Http\Controllers\ChemicalSoilTestController::class, 'index'])->name('index');
+    Route::post('/select-farm', [App\Http\Controllers\ChemicalSoilTestController::class, 'selectFarm'])->name('select-farm');
+    Route::get('/test-guide', [App\Http\Controllers\ChemicalSoilTestController::class, 'showTestGuide'])->name('test-guide');
+    Route::get('/vendors', [App\Http\Controllers\ChemicalSoilTestController::class, 'showVendors'])->name('vendors');
+    Route::get('/booking', [App\Http\Controllers\ChemicalSoilTestController::class, 'showBookingCalendar'])->name('booking');
+    Route::post('/create-booking', [App\Http\Controllers\ChemicalSoilTestController::class, 'createBooking'])->name('create-booking');
+    Route::get('/{soilTest}/payment', [App\Http\Controllers\ChemicalSoilTestController::class, 'showPayment'])->name('payment');
+    Route::post('/{soilTest}/process-payment', [App\Http\Controllers\ChemicalSoilTestController::class, 'processPayment'])->name('process-payment');
+    Route::get('/{soilTest}/confirmation', [App\Http\Controllers\ChemicalSoilTestController::class, 'showConfirmation'])->name('confirmation');
+    Route::post('/{soilTest}/confirm-pickup', [App\Http\Controllers\ChemicalSoilTestController::class, 'confirmPickup'])->name('confirm-pickup');
+    Route::get('/{soilTest}/testing', [App\Http\Controllers\ChemicalSoilTestController::class, 'showTesting'])->name('testing');
+    Route::post('/{soilTest}/start-location', [App\Http\Controllers\ChemicalSoilTestController::class, 'startLocationTesting'])->name('start-location');
+    Route::post('/{soilTest}/record-result', [App\Http\Controllers\ChemicalSoilTestController::class, 'recordDepthResult'])->name('record-result');
+    Route::get('/{soilTest}/return', [App\Http\Controllers\ChemicalSoilTestController::class, 'showReturn'])->name('return');
+    Route::post('/{soilTest}/confirm-return', [App\Http\Controllers\ChemicalSoilTestController::class, 'confirmReturn'])->name('confirm-return');
+    Route::get('/{soilTest}/results', [App\Http\Controllers\ChemicalSoilTestController::class, 'showResults'])->name('results');
+});
+
+// Recent users management
+Route::post('/clear-recent-users', [App\Http\Controllers\Auth\LoginController::class, 'clearRecentUsers'])->name('clear-recent-users');
+
 // Legacy soil routes (keep for backward compatibility)
 Route::get('/soil_dashboard', function () {   return view('soil.soil_dashboard');})->name('soil_dashboard')->middleware('auth');
 Route::get('/soil_results', function () {   return view('soil.soil_results');})->name('soil_results')->middleware('auth');
